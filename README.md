@@ -4,7 +4,7 @@ A full-stack MERN (MongoDB, Express.js, React, Node.js) application for managing
 
 📌 Features
 
-Add new transactions
+  Add new transactions
 
 View all transactions
 
