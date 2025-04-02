@@ -1,4 +1,4 @@
-# Hospital Records (MERN)
+# ✨🚀Hospital Records (MERN)
 
 A full-stack MERN (MongoDB, Express.js, React, Node.js) application for managing billing transactions.
 
