@@ -11,7 +11,7 @@ const transactionSchema = new mongoose.Schema({
   netAmount: { type: Number, required: true },
   paidAmount: { type: Number, required: true },
   dueAmount: { type: Number, required: true },
-  modeOfPayment: { type: String, required: true }
+  modeOfPayment: { type: String, required: true, enum: ["Cash", "Card", "UPI", "Bank Transfer"] }
 }, { timestamps: true });
 
 module.exports = mongoose.model("Transaction", transactionSchema);

@@ -3,7 +3,7 @@ const Transaction = require("../models/Transaction");
 
 const router = express.Router();
 
-// Create a new transaction
+// Add a new transaction
 router.post("/", async (req, res) => {
   try {
     const newTransaction = new Transaction(req.body);
@@ -13,6 +13,7 @@ router.post("/", async (req, res) => {
     res.status(500).json({ error: error.message });
   }
 });
+
 
 // Get all transactions
 router.get("/", async (req, res) => {
@@ -24,7 +25,7 @@ router.get("/", async (req, res) => {
   }
 });
 
-// Get a single transaction by ID
+// Get a transaction by ID
 router.get("/:id", async (req, res) => {
   try {
     const transaction = await Transaction.findById(req.params.id);
@@ -35,21 +36,20 @@ router.get("/:id", async (req, res) => {
   }
 });
 
-// Update a transaction
-router.put("/:id", async (req, res) => {
+// Search transactions by receiptNumber or patientName
+router.get("/search", async (req, res) => {
   try {
-    const updatedTransaction = await Transaction.findByIdAndUpdate(req.params.id, req.body, { new: true });
-    res.status(200).json(updatedTransaction);
-  } catch (error) {
-    res.status(500).json({ error: error.message });
-  }
-});
+    const { query } = req.query;
+    if (!query) return res.status(400).json({ error: "Search query is required" });
 
-// Delete a transaction
-router.delete("/:id", async (req, res) => {
-  try {
-    await Transaction.findByIdAndDelete(req.params.id);
-    res.status(200).json({ message: "Transaction deleted successfully" });
+    const transactions = await Transaction.find({
+      $or: [
+        { receiptNumber: { $regex: query, $options: "i" } },
+        { patientName: { $regex: query, $options: "i" } }
+      ]
+    });
+
+    res.status(200).json(transactions);
   } catch (error) {
     res.status(500).json({ error: error.message });
   }

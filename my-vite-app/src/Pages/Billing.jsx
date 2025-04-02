@@ -18,7 +18,7 @@ export default function Billing() {
     netAmount: "",
     paidAmount: "",
     dueAmount: "",
-    modeOfPayment: "",
+    modeOfPayment: "Cash",
   });
 
   const handleChange = (e) => {
@@ -27,24 +27,20 @@ export default function Billing() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-  
     try {
-      const response = await fetch("http://localhost:5000/transactions", {
+      const response = await fetch("http://localhost:5000/api/transactions", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
         },
         body: JSON.stringify(formData),
       });
-  
+      
       if (!response.ok) {
         throw new Error("Failed to save transaction");
       }
-  
       const newTransaction = await response.json();
       setTransactions([...transactions, newTransaction]);
-  
-      // Reset form after submission
       setFormData({
         receiptNumber: "",
         patientName: "",
@@ -56,16 +52,14 @@ export default function Billing() {
         netAmount: "",
         paidAmount: "",
         dueAmount: "",
-        modeOfPayment: "",
+        modeOfPayment: "Cash",
       });
-  
       alert("Transaction saved successfully!");
     } catch (error) {
       console.error("Error:", error);
       alert("Error saving transaction");
     }
   };
-  
 
   return (
     <div className="flex bg-gradient-to-t from-cyan-700 to-cyan-900 min-h-screen">
@@ -78,25 +72,47 @@ export default function Billing() {
         </div>
         <div className="bg-cyan-600 p-7 rounded-lg shadow-md">
           <form onSubmit={handleSubmit} className="grid grid-cols-2 gap-8 mt-4 bg-cyan-200 p-6 shadow-md rounded-lg">
-          <input
-        type="text"
-        name="receiptNumber"
-        placeholder="Receipt Number"
-        required
-        className="border p-2 rounded bg-gray-100 text-cyan-900 w-full"
-        value={formData.receiptNumber}
-        onChange={handleChange}
-      />            <input type="text" name="patientName" placeholder="Patient Name" required className="border p-2  text-cyan-900  rounded bg-gray-100" value={formData.patientName} onChange={handleChange} />
-            <input type="text" name="clientName" placeholder="Client Name" className="border p-2 rounded bg-gray-100 text-cyan-900 " value={formData.clientName} onChange={handleChange} />
-            <input type="date" name="visitDate" className="border p-2 rounded  bg-gray-100 text-cyan-900" value={formData.visitDate} onChange={handleChange} />
-            <input type="text" name="visitID" placeholder="Visit ID" className="border p-2 rounded bg-gray-100 text-cyan-900 " value={formData.visitID} onChange={handleChange} />
-            <input type="number" name="grossAmount" placeholder="Gross Amount" className="border p-2 rounded bg-gray-100 text-cyan-900 " value={formData.grossAmount} onChange={handleChange} />
-            <input type="number" name="discount" placeholder="Discount" className="border p-2 rounded bg-gray-100 text-cyan-900 " value={formData.discount} onChange={handleChange} />
-            <input type="number" name="netAmount" placeholder="Net Amount" className="border p-2 rounded bg-gray-100  text-cyan-900 " value={formData.netAmount} onChange={handleChange} />
-            <input type="number" name="paidAmount" placeholder="Paid Amount" className="border p-2 rounded bg-gray-100 text-cyan-900" value={formData.paidAmount} onChange={handleChange} />
-            <input type="number" name="dueAmount" placeholder="Due Amount" className="border p-2 rounded  bg-gray-100 text-cyan-900" value={formData.dueAmount} onChange={handleChange} />
-            <input type="text" name="modeOfPayment" placeholder="Mode of Payment" className="border p-2 rounded bg-gray-100 text-cyan-900" value={formData.modeOfPayment} onChange={handleChange} />
-            <button type="submit" className="col-span-2 bg-cyan-600 text-white p-2 rounded font-bold w-44 ml-[84vh]  hover:bg-cyan-700 transition-all">Add Transaction</button>
+            {[
+              { name: "receiptNumber", label: "Receipt Number", type: "text" },
+              { name: "patientName", label: "Patient Name", type: "text" },
+              { name: "clientName", label: "Client Name", type: "text" },
+              { name: "visitDate", label: "Visit Date", type: "date" },
+              { name: "visitID", label: "Visit ID", type: "text" },
+              { name: "grossAmount", label: "Gross Amount", type: "number" },
+              { name: "discount", label: "Discount", type: "number" },
+              { name: "netAmount", label: "Net Amount", type: "number" },
+              { name: "paidAmount", label: "Paid Amount", type: "number" },
+              { name: "dueAmount", label: "Due Amount", type: "number" },
+            ].map((field) => (
+              <div key={field.name}>
+                <label className="block text-cyan-900 font-semibold">{field.label}</label>
+                <input
+                  type={field.type}
+                  name={field.name}
+                  className="border p-2 rounded bg-gray-100 text-cyan-900 w-full"
+                  value={formData[field.name]}
+                  onChange={handleChange}
+                  required
+                />
+              </div>
+            ))}
+            <div>
+              <label className="block text-cyan-900 font-semibold">Mode of Payment</label>
+              <select
+                name="modeOfPayment"
+                className="border p-2 rounded bg-gray-100 text-cyan-900 w-full"
+                value={formData.modeOfPayment}
+                onChange={handleChange}
+                required
+              >
+                {["Cash", "Card", "UPI", "Bank Transfer"].map((option) => (
+                  <option key={option} value={option}>{option}</option>
+                ))}
+              </select>
+            </div>
+            <button type="submit" className="col-span-2 bg-cyan-600 text-white p-2 rounded font-bold w-44 ml-[84vh] hover:bg-cyan-700 transition-all">
+              Add Transaction
+            </button>
           </form>
         </div>
       </div>
