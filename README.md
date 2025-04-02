@@ -4,23 +4,26 @@ A full-stack MERN (MongoDB, Express.js, React, Node.js) application for managing
 
 ## 📌 Features
 
-- Add new transactions  
-- View all transactions  
-- Update or delete transactions  
+- Add new transaction
+ 
+-View all transactions  
+
+- Update or delete transactions
+  
 - Connects frontend (React) with backend (Express + MongoDB)  
 
 
-🚀 Tech Stack
+## 🚀 Tech Stack
 
-Frontend: React.js, Tailwind CSS, React Router
+- Frontend: React.js, Tailwind CSS, React Router
 
-Backend: Node.js, Express.js, MongoDB
+- Backend: Node.js, Express.js, MongoDB
 
-Database: MongoDB (Mongoose ODM)
+- Database: MongoDB (Mongoose ODM)
 
-State Management: useState
+- State Management: useState
 
-API Calls: Fetch API
+ - API Calls: Fetch API
 
 🛠 Setup Instructions
 
@@ -29,7 +32,7 @@ clone this project to your device
  git clone git@github.com:an9644/Hospital_Record.git
 ```
 
-1️⃣ Backend Setup
+## 1️⃣ Backend Setup
 
 Navigate to the backend folder:
 
@@ -48,7 +51,7 @@ Start the backend server:
 ```
 npm start
 ```
-2️⃣ Frontend Setup
+## 2️⃣ Frontend Setup
 
 Navigate to the frontend folder:
 ```
