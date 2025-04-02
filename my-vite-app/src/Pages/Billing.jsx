@@ -29,7 +29,7 @@ export default function Billing() {
     e.preventDefault();
   
     try {
-      const response = await fetch("http://localhost:5000/api/transactions", {
+      const response = await fetch("http://localhost:5000/transactions", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
