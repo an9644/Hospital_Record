@@ -1,7 +1,8 @@
 import React, { useState } from "react";
 import Layout from "../Layout/layout.jsx";
 import Sidebar from "../Components/Sidebar.jsx";
-import { Link } from "react-router-dom";
+import { Link, Navigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 export default function Billing() {
   const [sidebarOpen, setSidebarOpen] = useState(false);
@@ -20,6 +21,7 @@ export default function Billing() {
     dueAmount: "",
     modeOfPayment: "Cash",
   });
+  const navigate= useNavigate();
 
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
@@ -55,6 +57,7 @@ export default function Billing() {
         modeOfPayment: "Cash",
       });
       alert("Transaction saved successfully!");
+      navigate('bills')
     } catch (error) {
       console.error("Error:", error);
       alert("Error saving transaction");

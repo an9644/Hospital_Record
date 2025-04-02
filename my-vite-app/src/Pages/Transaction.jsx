@@ -23,19 +23,27 @@ const Transaction = () => {
     fetchTransactions();
   }, []);
 
-  // Handle search functionality
   const handleSearch = async (e) => {
     e.preventDefault();
-    if (!searchTerm) {
-      // If search term is empty, fetch all transactions
-      const res = await fetch("/api/transactions");
+    if (!searchTerm) return; // Do nothing if search term is empty
+
+    try {
+      const res = await fetch(`http://localhost:5000/api/transactions/search?receiptNumber=${searchTerm}`);
+      
+      // Check if the response is ok
+      if (!res.ok) {
+        const errorData = await res.json();
+        alert(`Error: ${errorData.error}`);
+        setTransactions([]); // Clear the transactions if not found
+        console.error("Error fetching transaction:", errorData);
+        return;
+      }
+      
       const data = await res.json();
-      setTransactions(data);
-    } else {
-      // If there's a search term, fetch filtered results
-      const res = await fetch(`/api/transactions/search?query=${searchTerm}`);
-      const data = await res.json();
-      setTransactions(data);
+      setTransactions(data); // Update state with the searched transactions
+    } catch (error) {
+      console.error("Error fetching transaction:", error);
+      setTransactions([]); // Clear transactions if error occurs
     }
   };
 
@@ -54,7 +62,7 @@ const Transaction = () => {
         <div className="mb-4 p-6 flex space-x-4">
           <input
             type="text"
-            placeholder="Search by Patient Name or Receipt Number"
+            placeholder="Search by Receipt Number"
             className="p-2 border rounded w-full bg-gray-100 text-cyan-900"
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
@@ -86,7 +94,7 @@ const Transaction = () => {
           <tbody>
             {transactions.length === 0 ? (
               <tr>
-                <td colSpan="12" className="text-center py-6">No Transactions Available</td>
+                <td colSpan="12" className="text-center py-6">No data found</td>
               </tr>
             ) : (
               transactions.map((transaction, index) => (
