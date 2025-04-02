@@ -2,15 +2,13 @@
 
 A full-stack MERN (MongoDB, Express.js, React, Node.js) application for managing billing transactions.
 
-📌 Features
+## 📌 Features
 
-  Add new transactions
+- Add new transactions  
+- View all transactions  
+- Update or delete transactions  
+- Connects frontend (React) with backend (Express + MongoDB)  
 
-View all transactions
-
-Update or delete transactions
-
-Connects frontend (React) with backend (Express + MongoDB)
 
 🚀 Tech Stack
 
