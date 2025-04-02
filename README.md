@@ -28,6 +28,7 @@ API Calls: Fetch API
 
 clone this project to your device
 ```
+ git clone git@github.com:an9644/Hospital_Record.git
 ```
 
 1️⃣ Backend Setup
